@@ -1,7 +1,0 @@
-{
-  "functions": {
-    "api/rating.js": {
-      "runtime": "@vercel/node"
-    }
-  }
-}
