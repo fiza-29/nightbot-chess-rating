@@ -1,17 +1,23 @@
 export default async function handler(req, res) {
-  const username = "fiza2908";
+  try {
+    const response = await fetch(
+      "https://api.chess.com/pub/player/fiza2908/stats"
+    );
 
-  const response = await fetch(
-    https://api.chess.com/pub/player/${username}/stats
-  );
+    const data = await response.json();
 
-  const data = await response.json();
+    res.setHeader("Content-Type", "text/plain");
 
-  const rapid = data.chess_rapid?.last?.rating || "N/A";
-  const blitz = data.chess_blitz?.last?.rating || "N/A";
-  const bullet = data.chess_bullet?.last?.rating || "N/A";
+    res.end(
+      "♟️ Chess.com Ratings | Rapid: " +
+      (data.chess_rapid?.last?.rating || "N/A") +
+      " | Blitz: " +
+      (data.chess_blitz?.last?.last?.rating || "N/A") +
+      " | Bullet: " +
+      (data.chess_bullet?.last?.rating || "N/A")
+    );
 
-  res.status(200).send(
-    ♟️ Chess.com Ratings | Rapid: ${rapid} | Blitz: ${blitz} | Bullet: ${bullet}
-  );
+  } catch (error) {
+    res.status(500).end(error.toString());
+  }
 }
